@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AquaGuard · Component C — Predictive Engine</title>
+<link rel="stylesheet" href="css/styles.css" />
+<script src="js/vendor/chart.umd.js"></script>
+</head>
+<body>
+
+<div class="scanline-overlay" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="topbar-brand">
+    <svg class="brand-mark" viewBox="0 0 40 40" width="30" height="30" aria-hidden="true">
+      <path d="M20 3 C20 3 8 17 8 25 A12 12 0 0 0 32 25 C32 17 20 3 20 3 Z" fill="none" stroke="currentColor" stroke-width="2.2"/>
+      <path d="M13 24 C15 27 25 27 27 24" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.6"/>
+    </svg>
+    <div class="brand-text">
+      <span class="brand-title">AquaGuard</span>
+      <span class="brand-subtitle">Component C — Predictive Engine</span>
+    </div>
+  </div>
+  <div class="topbar-meta">
+    <span class="pill" id="data-source-pill">data source: —</span>
+    <span class="pill pill-muted" id="backend-status">connecting…</span>
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- Pipeline flow strip -->
+  <section class="pipeline-strip" aria-label="Component C pipeline stages">
+    <div class="pipe-node" data-node="a">
+      <span class="pipe-index">IN</span>
+      <span class="pipe-label">Fused Feature Set<br><small>from Component B</small></span>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-node" data-node="stage1">
+      <span class="pipe-index">01</span>
+      <span class="pipe-label">Anomaly Detection<br><small>CNN-LSTM Autoencoder</small></span>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-node" data-node="stage2">
+      <span class="pipe-index">02</span>
+      <span class="pipe-label">RUL Estimation<br><small>Water-quality-conditioned</small></span>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-node" data-node="stage3">
+      <span class="pipe-index">03</span>
+      <span class="pipe-label">Failure-Mode Classification<br><small>Mechanical vs Chemical</small></span>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-node" data-node="d">
+      <span class="pipe-index">OUT</span>
+      <span class="pipe-label">Dashboard &amp; Alerts<br><small>Component D</small></span>
+    </div>
+  </section>
+
+  <!-- KPI strip -->
+  <section class="kpi-grid" id="kpi-grid" aria-label="Headline metrics">
+    <div class="kpi-card">
+      <span class="kpi-label">Stage 1 · Val. Reconstruction Loss</span>
+      <span class="kpi-value" id="kpi-stage1-loss">—</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Stage 2 · RUL MAE (CNN-LSTM)</span>
+      <span class="kpi-value" id="kpi-stage2-mae">—</span>
+      <span class="kpi-unit">cycles</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Stage 3 · Classification Accuracy</span>
+      <span class="kpi-value" id="kpi-stage3-acc">—</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">3-Variant · Significance (p)</span>
+      <span class="kpi-value" id="kpi-variant-p">—</span>
+    </div>
+  </section>
+
+  <div class="grid-main">
+
+    <!-- Left column -->
+    <div class="col col-wide">
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Stage 1 — Engine Health Trajectory</h2>
+          <div class="engine-select">
+            <label for="engine-picker">Engine</label>
+            <select id="engine-picker"></select>
+          </div>
+        </div>
+        <div class="alert-banner" id="alert-banner">
+          <span class="alert-dot" id="alert-dot"></span>
+          <span class="alert-text" id="alert-text">Awaiting data…</span>
+          <span class="alert-cycle" id="alert-cycle"></span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="healthChart" height="260"></canvas>
+        </div>
+        <p class="panel-note">
+          Reconstruction error of the CNN-LSTM autoencoder over each engine's observed
+          life. Thresholds are derived from the error distribution on held-out
+          <em>healthy</em> validation windows (Normal → Watch → Warning → Critical).
+        </p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Stage 2 — Remaining Useful Life</h2>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="rulChart" height="260"></canvas>
+        </div>
+        <p class="panel-note">
+          Predicted vs. actual RUL at each test engine's last observed cycle. Points on
+          the diagonal are perfect predictions. CNN-LSTM (Component C's proposed
+          architecture) is compared against a plain-LSTM baseline for methodology
+          rehearsal.
+        </p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Three-Variant Comparative Experiment</h2>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="variantChart" height="220"></canvas>
+        </div>
+        <div class="variant-verdict" id="variant-verdict">—</div>
+        <p class="panel-note" id="variant-honesty-note"></p>
+      </section>
+
+    </div>
+
+    <!-- Right column -->
+    <div class="col col-narrow">
+
+      <section class="panel">
+        <div class="panel-head"><h2>RUL Countdown</h2></div>
+        <div class="rul-countdown">
+          <span class="rul-countdown-value" id="rul-countdown-value">—</span>
+          <span class="rul-countdown-label">cycles remaining (selected engine)</span>
+        </div>
+        <div class="rul-mini-row">
+          <div><span class="mini-label">Predicted</span><span class="mini-value" id="rul-predicted">—</span></div>
+          <div><span class="mini-label">Actual</span><span class="mini-value" id="rul-actual">—</span></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>Failure-Mode Classification</h2></div>
+        <div id="failure-mode-summary" class="failure-mode-summary">—</div>
+        <div class="chart-wrap chart-wrap-small">
+          <canvas id="confusionChart" height="200"></canvas>
+        </div>
+        <p class="panel-note" id="failure-mode-note"></p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>Pipeline Notes</h2></div>
+        <ul class="notes-list">
+          <li><strong>Phase A rehearsal.</strong> This prototype trains and validates the full three-stage architecture on the NASA C-MAPSS turbofan dataset, standing in for real NWSDB sensor data ahead of Phase B deployment.</li>
+          <li><strong>Data source.</strong> Uses either your downloaded C-MAPSS files (<code>data/raw/</code>) or an auto-generated synthetic dataset with an identical schema — see badge, top right.</li>
+          <li><strong>Re-run anytime.</strong> <code>python -m src.run_all</code> regenerates every result this dashboard displays.</li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    AquaGuard — J26-DS-325 · Component C Prototype · Sanjana P.V.A (IT23306554)
+  </footer>
+
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+{
+  "variant": "variant2",
+  "label": "Variant 2 - Mechanical + Water Quality (A1 + A2)",
+  "n_features": 12,
+  "feature_cols": [
+    "vibration_rms_g",
+    "vibration_peak_freq_hz",
+    "temperature_c",
+    "acoustic_level_db",
+    "current_draw_a",
+    "vibration_rms_roll_mean_6h",
+    "vibration_rms_roll_std_6h",
+    "ph",
+    "turbidity_ntu",
+    "conductivity_us_cm",
+    "flow_lmin",
+    "water_aggression_index"
+  ],
+  "n_train_windows": 4948,
+  "n_val_windows": 988,
+  "n_test_windows": 991,
+  "anomaly_detection": {
+    "precision": 0.8926261319534282,
+    "recall": 1.0,
+    "f1": 0.9432672590567327
+  },
+  "rul_estimation": {
+    "rmse": 27.882345234663063,
+    "mae": 24.23126602209118
+  },
+  "failure_mode_classification": {
+    "accuracy": 0.9757820383451059,
+    "f1_macro": 0.9705402490386129,
+    "confusion_matrix": [
+      [
+        300,
+        0,
+        1
+      ],
+      [
+        0,
+        491,
+        23
+      ],
+      [
+        0,
+        0,
+        176
+      ]
+    ],
+    "labels": [
+      "Normal",
+      "Mechanical",
+      "Chemical"
+    ],
+    "report": {
+      "Normal": {
+        "precision": 1.0,
+        "recall": 0.9966777408637874,
+        "f1-score": 0.9983361064891847,
+        "support": 301.0
+      },
+      "Mechanical": {
+        "precision": 1.0,
+        "recall": 0.9552529182879378,
+        "f1-score": 0.9771144278606965,
+        "support": 514.0
+      },
+      "Chemical": {
+        "precision": 0.88,
+        "recall": 1.0,
+        "f1-score": 0.9361702127659575,
+        "support": 176.0
+      },
+      "accuracy": 0.9757820383451059,
+      "macro avg": {
+        "precision": 0.96,
+        "recall": 0.9839768863839083,
+        "f1-score": 0.9705402490386129,
+        "support": 991.0
+      },
+      "weighted avg": {
+        "precision": 0.9786881937436932,
+        "recall": 0.9757820383451059,
+        "f1-score": 0.9762885382648345,
+        "support": 991.0
+      }
+    }
+  },
+  "alert_level_distribution_test": {
+    "Critical": 699,
+    "Normal": 218,
+    "Watch": 46,
+    "Warning": 28
+  }
+}

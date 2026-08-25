@@ -1,0 +1,5 @@
+pump_id,degradation_onset_date,failure_date,failure_mode,engineer_notes
+PUMP_01,,,None (healthy throughout observation window),No failure observed in this data window; right-censored for RUL purposes.
+PUMP_02,2026-04-15,2026-05-10,Mechanical,Bearing wear / imbalance confirmed on inspection; vibration and acoustic trend rose steadily over ~3-4 weeks prior to failure.
+PUMP_03,2026-03-31,2026-04-25,Chemical,"Corrosion/scaling confirmed on impeller; turbidity and conductivity trended upward for ~3-4 weeks prior to failure, mechanical symptoms lagged by ~4 days."
+PUMP_04,2026-04-30,2026-05-25,Mechanical,Bearing wear / imbalance confirmed on inspection; vibration and acoustic trend rose steadily over ~3-4 weeks prior to failure.

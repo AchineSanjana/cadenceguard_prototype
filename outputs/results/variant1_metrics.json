@@ -1,0 +1,91 @@
+{
+  "variant": "variant1",
+  "label": "Variant 1 - Mechanical Only (A1)",
+  "n_features": 7,
+  "feature_cols": [
+    "vibration_rms_g",
+    "vibration_peak_freq_hz",
+    "temperature_c",
+    "acoustic_level_db",
+    "current_draw_a",
+    "vibration_rms_roll_mean_6h",
+    "vibration_rms_roll_std_6h"
+  ],
+  "n_train_windows": 4948,
+  "n_val_windows": 988,
+  "n_test_windows": 991,
+  "anomaly_detection": {
+    "precision": 0.9236947791164659,
+    "recall": 1.0,
+    "f1": 0.9603340292275574
+  },
+  "rul_estimation": {
+    "rmse": 27.77331915147708,
+    "mae": 24.13591500425708
+  },
+  "failure_mode_classification": {
+    "accuracy": 0.822401614530777,
+    "f1_macro": 0.6179401993355481,
+    "confusion_matrix": [
+      [
+        301,
+        0,
+        0
+      ],
+      [
+        0,
+        514,
+        0
+      ],
+      [
+        0,
+        176,
+        0
+      ]
+    ],
+    "labels": [
+      "Normal",
+      "Mechanical",
+      "Chemical"
+    ],
+    "report": {
+      "Normal": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 301.0
+      },
+      "Mechanical": {
+        "precision": 0.744927536231884,
+        "recall": 1.0,
+        "f1-score": 0.8538205980066446,
+        "support": 514.0
+      },
+      "Chemical": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 176.0
+      },
+      "accuracy": 0.822401614530777,
+      "macro avg": {
+        "precision": 0.5816425120772947,
+        "recall": 0.6666666666666666,
+        "f1-score": 0.6179401993355481,
+        "support": 991.0
+      },
+      "weighted avg": {
+        "precision": 0.6901036868044282,
+        "recall": 0.822401614530777,
+        "f1-score": 0.7465830346876038,
+        "support": 991.0
+      }
+    }
+  },
+  "alert_level_distribution_test": {
+    "Critical": 691,
+    "Normal": 244,
+    "Warning": 29,
+    "Watch": 27
+  }
+}

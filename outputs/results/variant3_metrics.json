@@ -1,0 +1,107 @@
+{
+  "variant": "variant3",
+  "label": "Variant 3 - Fully Fused (A1 + A2 + Weather + Component B features)",
+  "n_features": 23,
+  "feature_cols": [
+    "vibration_rms_g",
+    "vibration_peak_freq_hz",
+    "temperature_c",
+    "acoustic_level_db",
+    "current_draw_a",
+    "vibration_rms_roll_mean_6h",
+    "vibration_rms_roll_std_6h",
+    "ph",
+    "turbidity_ntu",
+    "conductivity_us_cm",
+    "flow_lmin",
+    "water_aggression_index",
+    "rainfall_mm",
+    "humidity_pct",
+    "turbidity_roll_mean_24h",
+    "ph_roll_mean_24h",
+    "rainfall_lag_24h",
+    "turbidity_lag_6h",
+    "ph_lag_6h",
+    "water_aggression_index_lag_24h",
+    "turbidity_baseline_expected",
+    "turbidity_deviation_from_baseline",
+    "pump_stress_index"
+  ],
+  "n_train_windows": 4948,
+  "n_val_windows": 988,
+  "n_test_windows": 991,
+  "anomaly_detection": {
+    "precision": 0.8734177215189873,
+    "recall": 1.0,
+    "f1": 0.9324324324324325
+  },
+  "rul_estimation": {
+    "rmse": 27.50490668331639,
+    "mae": 23.58565470953902
+  },
+  "failure_mode_classification": {
+    "accuracy": 0.9505549949545913,
+    "f1_macro": 0.949400039948619,
+    "confusion_matrix": [
+      [
+        301,
+        0,
+        0
+      ],
+      [
+        27,
+        465,
+        22
+      ],
+      [
+        0,
+        0,
+        176
+      ]
+    ],
+    "labels": [
+      "Normal",
+      "Mechanical",
+      "Chemical"
+    ],
+    "report": {
+      "Normal": {
+        "precision": 0.9176829268292683,
+        "recall": 1.0,
+        "f1-score": 0.9570747217806042,
+        "support": 301.0
+      },
+      "Mechanical": {
+        "precision": 1.0,
+        "recall": 0.9046692607003891,
+        "f1-score": 0.9499489274770173,
+        "support": 514.0
+      },
+      "Chemical": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1-score": 0.9411764705882353,
+        "support": 176.0
+      },
+      "accuracy": 0.9505549949545913,
+      "macro avg": {
+        "precision": 0.935523938572719,
+        "recall": 0.9682230869001297,
+        "f1-score": 0.949400039948619,
+        "support": 991.0
+      },
+      "weighted avg": {
+        "precision": 0.9552643848840103,
+        "recall": 0.9505549949545913,
+        "f1-score": 0.9505552964709164,
+        "support": 991.0
+      }
+    }
+  },
+  "alert_level_distribution_test": {
+    "Critical": 690,
+    "Normal": 201,
+    "Watch": 68,
+    "Warning": 32
+  }
+}

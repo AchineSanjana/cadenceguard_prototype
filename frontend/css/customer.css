@@ -1,0 +1,630 @@
+/* ==========================================================================
+   CadenceGuard · Pump Health Monitor — Design System
+   Palette & style matching the CadenceGuard product screenshot:
+   - White background with subtle dot grid
+   - Clean horizontal nav (uppercase, spaced, gray)
+   - White cards, 1px light-gray borders, minimal shadow
+   - Status colours: green (healthy), amber (watch), orange (warning), red (critical)
+   - Blue accent border for active/selected elements
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+:root {
+  /* Core palette */
+  --white:        #ffffff;
+  --bg-page:      #f5f6f7;
+  --bg-card:      #ffffff;
+
+  /* Border */
+  --border:       #dde1e7;
+  --border-light: #eaecef;
+
+  /* Text */
+  --text-h:       #111827;   /* headings */
+  --text-body:    #374151;   /* body copy */
+  --text-sec:     #6b7280;   /* secondary / labels */
+  --text-muted:   #9ca3af;   /* muted */
+
+  /* Brand */
+  --brand:        #111827;   /* "CadenceGuard" wordmark colour */
+  --brand-icon:   #374151;
+
+  /* Navigation */
+  --nav-link:     #6b7280;
+  --nav-active:   #111827;
+
+  /* Accent / selection */
+  --accent-blue:  #1d6aeb;
+  --accent-ring:  rgba(29, 106, 235, 0.18);
+
+  /* Status colours – matching screenshot exactly */
+  --green:        #16a34a;   /* ACTIVE / healthy */
+  --green-bg:     #f0fdf4;
+  --green-border: #bbf7d0;
+
+  --amber:        #d97706;   /* WATCH / monitor – large bold text */
+  --amber-bg:     #fffbeb;
+  --amber-border: #fde68a;
+
+  --orange:       #ea580c;   /* WARNING */
+  --orange-bg:    #fff7ed;
+  --orange-border:#fed7aa;
+
+  --red:          #dc2626;   /* CRITICAL */
+  --red-bg:       #fef2f2;
+  --red-border:   #fecaca;
+
+  /* Dot-grid overlay colours */
+  --dot-color:    rgba(0,0,0,0.065);
+
+  /* Spacing & radius */
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --radius-lg:    14px;
+
+  /* Shadow */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm:  0 1px 4px rgba(0,0,0,0.07);
+  --shadow-card:0 2px 8px rgba(0,0,0,0.06), 0 0 0 1px var(--border);
+
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --transition: 0.15s ease;
+}
+
+/* ─── Reset ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg-page);
+  color: var(--text-body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  /* Subtle dot grid — exact match to screenshot background */
+  background-image: radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-attachment: local;
+}
+
+/* ─── Topbar / Navigation ─────────────────────────────────────────────────── */
+.topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  height: 52px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  gap: 0;
+}
+
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.brand-icon {
+  color: var(--brand-icon);
+}
+
+.brand-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--brand);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+/* Centre nav */
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  margin: 0 auto;
+}
+
+.nav-link {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--nav-link);
+  text-decoration: none;
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.nav-link:hover       { color: var(--nav-active); }
+.nav-link-active      { color: var(--nav-active); border-bottom-color: var(--nav-active); }
+
+/* Right side */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.last-updated-wrap {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: livepulse 2.5s ease-in-out infinite;
+}
+@keyframes livepulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.last-updated-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.fleet-summary { display: flex; align-items: center; gap: 6px; }
+
+.fleet-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.fleet-badge-crit { background: var(--red-bg);    color: var(--red);    border: 1px solid var(--red-border);    }
+.fleet-badge-warn { background: var(--amber-bg);  color: var(--amber);  border: 1px solid var(--amber-border);  }
+.fleet-badge-ok   { background: var(--green-bg);  color: var(--green);  border: 1px solid var(--green-border);  }
+
+.nav-user-icon {
+  color: var(--text-sec);
+  cursor: pointer;
+}
+
+/* ─── Page Container ──────────────────────────────────────────────────────── */
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 24px 40px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+
+/* ─── Section Headers ─────────────────────────────────────────────────────── */
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.section-header h1 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-h);
+  letter-spacing: -0.02em;
+}
+
+.section-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ─── Fleet Grid ──────────────────────────────────────────────────────────── */
+.fleet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+  gap: 12px;
+}
+
+.fleet-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  padding: 16px;
+  cursor: pointer;
+  transition: box-shadow var(--transition), border-color var(--transition), transform var(--transition);
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  user-select: none;
+  position: relative;
+}
+
+.fleet-card:hover {
+  box-shadow: var(--shadow-card);
+  transform: translateY(-1px);
+}
+
+/* Active selection: blue border like screenshot */
+.fleet-card.selected {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-ring), var(--shadow-sm);
+}
+
+/* Top colour stripe per status */
+.fleet-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+.fleet-card.status-normal::before  { background: var(--green);  }
+.fleet-card.status-watch::before   { background: var(--amber);  }
+.fleet-card.status-warning::before { background: var(--orange); }
+.fleet-card.status-critical::before{ background: var(--red);    }
+
+.fleet-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2px; /* clear the colour stripe */
+}
+
+.fleet-pump-id {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.status-dot.dot-normal   { background: var(--green);  }
+.status-dot.dot-watch    { background: var(--amber);  }
+.status-dot.dot-warning  { background: var(--orange); animation: dotblink 2s infinite; }
+.status-dot.dot-critical { background: var(--red);    animation: dotblink 1.2s infinite; }
+
+@keyframes dotblink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.fleet-rul {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-h);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.fleet-rul-unit {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 1px;
+}
+
+/* Status label pill */
+.fleet-status-label {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  align-self: flex-start;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.label-normal   { background: var(--green-bg);  color: var(--green);  border: 1px solid var(--green-border);  }
+.label-watch    { background: var(--amber-bg);  color: var(--amber);  border: 1px solid var(--amber-border);  }
+.label-warning  { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-border); }
+.label-critical { background: var(--red-bg);    color: var(--red);    border: 1px solid var(--red-border);    }
+
+/* Skeletons */
+.fleet-skeleton {
+  background: var(--border-light);
+  border-radius: var(--radius-md);
+  height: 128px;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+@keyframes shimmer { 0%,100%{opacity:.5} 50%{opacity:1} }
+
+/* ─── Detail Section Header ───────────────────────────────────────────────── */
+.detail-pump-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-h);
+  letter-spacing: -0.02em;
+}
+
+/* Alert chip */
+.alert-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 14px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.chip-normal   { background: var(--green-bg);  color: var(--green);  border: 1px solid var(--green-border);  }
+.chip-watch    { background: var(--amber-bg);  color: var(--amber);  border: 1px solid var(--amber-border);  }
+.chip-warning  { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-border); }
+.chip-critical { background: var(--red-bg);    color: var(--red);    border: 1px solid var(--red-border);    }
+.chip-default  { background: var(--border-light); color: var(--text-sec); border: 1px solid var(--border); }
+
+/* ─── Detail Grid Layout ──────────────────────────────────────────────────── */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 1024px) { .detail-grid { grid-template-columns: 1fr; } }
+
+.detail-col { display: flex; flex-direction: column; gap: 14px; }
+
+/* ─── Cards ───────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-xs);
+}
+
+/* Section-type label above card title, matching the screenshot ("SENSOR LAYER", "ESCALATION") */
+.card-section-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.card-head h3,
+.card-head-simple {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.card-head-simple { margin-bottom: 14px; }
+
+.card-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--border-light);
+  color: var(--text-sec);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card-desc {
+  font-size: 12px;
+  color: var(--text-sec);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+/* Chart wrap */
+.chart-wrap {
+  position: relative;
+  height: 220px;
+  margin-bottom: 12px;
+}
+
+/* ─── Threshold Legend ────────────────────────────────────────────────────── */
+.threshold-legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+  border-top: 1px solid var(--border-light);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text-sec);
+  font-weight: 500;
+}
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+.legend-dot.dot-normal   { background: var(--green);  }
+.legend-dot.dot-watch    { background: var(--amber);  }
+.legend-dot.dot-warning  { background: var(--orange); }
+.legend-dot.dot-critical { background: var(--red);    }
+
+/* ─── Action List ─────────────────────────────────────────────────────────── */
+.action-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+
+.action-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-page);
+  border: 1px solid var(--border-light);
+  font-size: 12px;
+  color: var(--text-body);
+  line-height: 1.45;
+  transition: background var(--transition), border-color var(--transition);
+}
+.action-item:hover { background: #eef4ff; border-color: #c3d9fd; }
+
+.action-item.priority-high   { background: var(--red-bg);    border-color: var(--red-border);    }
+.action-item.priority-medium { background: var(--amber-bg);  border-color: var(--amber-border);  }
+.action-item.priority-low    { background: var(--green-bg);  border-color: var(--green-border);  }
+
+.action-icon  { font-size: 14px; flex-shrink: 0; line-height: 1.3; }
+.action-text  { display: flex; flex-direction: column; gap: 1px; }
+.action-title { font-weight: 600; font-size: 12px; }
+.action-detail{ font-size: 11px; color: var(--text-sec); }
+
+.action-placeholder { color: var(--text-muted); font-style: italic; border: none; background: transparent; padding: 6px 0; }
+
+/* ─── Current Status Card (matches "Escalation / Current Status" panel) ──── */
+
+/* The big WATCH / CRITICAL / HEALTHY text like in screenshot */
+.rul-headline-label {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: 4px;
+}
+.rul-headline-label.status-normal   { color: var(--green);  }
+.rul-headline-label.status-watch    { color: var(--amber);  }
+.rul-headline-label.status-warning  { color: var(--orange); }
+.rul-headline-label.status-critical { color: var(--red);    }
+
+.rul-headline-sublabel {
+  font-size: 11px;
+  color: var(--text-sec);
+  text-align: center;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+
+/* ─── RUL Ring ────────────────────────────────────────────────────────────── */
+.card-rul { text-align: center; }
+.rul-display { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+
+.rul-ring { position: relative; width: 130px; height: 130px; }
+.rul-ring-svg { width: 130px; height: 130px; transform: rotate(-90deg); }
+.ring-bg   { fill: none; stroke: var(--border-light); stroke-width: 9; }
+.ring-fill {
+  fill: none;
+  stroke: var(--green);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-dasharray: 314;
+  stroke-dashoffset: 314;
+  transition: stroke-dashoffset 0.8s cubic-bezier(.4,0,.2,1), stroke 0.4s ease;
+}
+.rul-ring-inner {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  display: flex; flex-direction: column; align-items: center; line-height: 1;
+}
+.rul-days { font-size: 30px; font-weight: 800; color: var(--text-h); letter-spacing: -0.04em; }
+.rul-unit { font-size: 10px; color: var(--text-sec); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+
+.rul-context { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
+.rul-context-item {
+  display: flex; flex-direction: column; align-items: center;
+  background: var(--bg-page); border-radius: var(--radius-sm);
+  padding: 8px 6px; border: 1px solid var(--border-light);
+}
+.rul-context-label { font-size: 9px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 3px; }
+.rul-context-value { font-size: 12px; font-weight: 700; color: var(--text-h); text-align: center; }
+
+/* ─── Failure Type Card ───────────────────────────────────────────────────── */
+.failure-type-display { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+
+.failure-icon-wrap {
+  width: 42px; height: 42px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+  border: 1px solid var(--border-light);
+  background: var(--bg-page);
+}
+.icon-normal { background: var(--green-bg);   border-color: var(--green-border);  }
+.icon-mech   { background: var(--orange-bg);  border-color: var(--orange-border); }
+.icon-chem   { background: #f5f0ff;           border-color: #ddd6fe;             }
+
+.failure-info { display: flex; flex-direction: column; gap: 3px; }
+.failure-label { font-size: 14px; font-weight: 700; color: var(--text-h); }
+.failure-desc  { font-size: 11px; color: var(--text-sec); line-height: 1.45; }
+
+.failure-what-to-check {
+  background: var(--bg-page);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+.what-to-check-title {
+  font-size: 10px; font-weight: 700; color: var(--text-sec);
+  text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 7px;
+}
+.check-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.check-list li {
+  font-size: 11px; color: var(--text-body);
+  display: flex; align-items: flex-start; gap: 7px;
+}
+.check-list li::before { content: '✓'; color: var(--accent-blue); font-weight: 700; flex-shrink: 0; }
+
+/* ─── Status Summary (matches the small table in "Escalation" panel) ──────── */
+
+/* Rows matching screenshot: "Uptime", "Last T1 trigger", "Anomaly score" etc. */
+.status-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.status-table tr { border-bottom: 1px solid var(--border-light); }
+.status-table tr:last-child { border-bottom: none; }
+.status-table td {
+  padding: 7px 0;
+  font-size: 12px;
+  vertical-align: middle;
+}
+.status-table .trow-label { color: var(--text-sec); font-weight: 500; width: 55%; }
+.status-table .trow-value { color: var(--text-h); font-weight: 700; text-align: right; }
+
+/* ─── Stats Grid (kept as fallback) ─────────────────────────────────────────*/
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.stat-item {
+  background: var(--bg-page); border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm); padding: 10px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.stat-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); }
+.stat-value { font-size: 13px; font-weight: 700; color: var(--text-h); }
+
+/* ─── Footer ──────────────────────────────────────────────────────────────── */
+.page-footer {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  padding: 12px 28px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .topbar { padding: 0 16px; }
+  .topbar-nav { display: none; }
+  .fleet-summary { display: none; }
+  .page { padding: 18px 14px; }
+  .card { padding: 14px 15px; }
+  .fleet-grid { grid-template-columns: repeat(2, 1fr); }
+}

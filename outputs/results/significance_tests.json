@@ -1,0 +1,14 @@
+{
+  "paired_t_test": {
+    "statistic": 3.32710648526322,
+    "p_value": 0.0009098148730939671
+  },
+  "wilcoxon_signed_rank": {
+    "statistic": 241383.0,
+    "p_value": 0.6265822383059412
+  },
+  "significant_at_0.05": true,
+  "n_paired_samples": 991,
+  "mean_abs_rul_error_variant1": 24.13591500425708,
+  "mean_abs_rul_error_variant3": 23.58565470953902
+}
